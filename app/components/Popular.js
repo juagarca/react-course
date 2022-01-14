@@ -1,5 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { fetchPopularRepos } from '../utils/api.js'
 
 function LanguagesNav({ selected, onUpdateLanguage }) {
   const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
@@ -30,26 +31,44 @@ export default class Popular extends React.Component {
     super(props)
 
     this.state = {
-      selectedLanguage: 'All'
+      selectedLanguage: 'All',
+      repos: null,
+      error: null
     }
 
     this.updateLanguage = this.updateLanguage.bind(this)
   }
+
+
   updateLanguage(selectedLanguage) {
     this.setState({
-      selectedLanguage
+      selectedLanguage,
+      error: null,
+      repos: null
     })
+
+    fetchPopularRepos(selectedLanguage)
+      .then((repos) => this.setState({
+        repos,
+        error: null
+      }))
+      .catch
   }
+
+  isLoading() {
+
+  }
+
   render() {
     const { selectedLanguage } = this.state
 
     return (
-      <React.Fragment>
+      <React.Fragment >
         <LanguagesNav
           selected={selectedLanguage}
           onUpdateLanguage={this.updateLanguage}
         />
-      </React.Fragment>
+      </React.Fragment >
     )
   }
 }
