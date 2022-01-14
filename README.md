@@ -11,7 +11,7 @@
 
 ### Info
 
-This is the repository for ui.dev's "React" course project. 
+This is the repository for ui.dev's "React" course project.
 
 For more information on the course, visit __[ui.dev/react](https://ui.dev/react/)__.
 
