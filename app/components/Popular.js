@@ -37,8 +37,12 @@ export default class Popular extends React.Component {
     }
 
     this.updateLanguage = this.updateLanguage.bind(this)
+    this.isLoading = this.isLoading.bind(this)
   }
 
+  componentDidMount() {
+    this.updateLanguage(this.state.selectedLanguage)
+  }
 
   updateLanguage(selectedLanguage) {
     this.setState({
@@ -52,15 +56,21 @@ export default class Popular extends React.Component {
         repos,
         error: null
       }))
-      .catch
+      .catch(() => {
+        console.warn('Error catching repos', error)
+
+        this.setState({
+          error: 'There was an error fetching the repositories'
+        })
+      })
   }
 
   isLoading() {
-
+    return this.state.repos === null && this.state.error === null
   }
 
   render() {
-    const { selectedLanguage } = this.state
+    const { selectedLanguage, repos, error } = this.state
 
     return (
       <React.Fragment >
@@ -68,6 +78,9 @@ export default class Popular extends React.Component {
           selected={selectedLanguage}
           onUpdateLanguage={this.updateLanguage}
         />
+        {this.isLoading() && <p>LOADING</p>}
+        {error && <p>ERROR</p>}
+        {repos && <pre>{JSON.stringify(repos, null, 2)}</pre>}
       </React.Fragment >
     )
   }
