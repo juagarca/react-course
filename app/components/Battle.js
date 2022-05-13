@@ -27,7 +27,7 @@ function Instructions() {
 }
 
 class PlayerInput extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -40,8 +40,7 @@ class PlayerInput extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-
-    this.props.onSubmit; { this.state.username }
+    this.props.onSubmit(this.state.username)
   }
 
   handleChange(event) {
@@ -49,37 +48,38 @@ class PlayerInput extends React.Component {
       username: event.target.value
     })
   }
+
+  render() {
+    return (
+      <form className='columnn player' onSubmit={this.handleSubmit} >
+        <label htmlFor='username' className='player-label'>
+          {this.props.label}
+        </label>
+        <div className='row player-inputs'>
+          <input
+            type='text'
+
+            id='username'
+            className='input-light'
+            placeholder='github username'
+            autoComplete='off'
+            value={this.state.username}
+            onChange={this.handleChange}
+          />
+          <button
+            className='btn dark-btn'
+            type='submit'
+            disabled={!this.state.username}
+          >
+            Submit
+          </button>
+        </div>
+      </form >
+    )
+  }
 }
 
-render() {
-  return (
-    <form className='columnn player' onSubmit={this.handleSubmit} >
-      <label htmlFor='username' className='player-label'>
-        {this.props.label}
-      </label>
-      <div className='row player-inputs'>
-        <input
-          type='text'
-          id='username'
-          className='input-light'
-          placeholder='github user'
-          autoComplete='off'
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-      </div>
-      <button
-        className='btn btn-dark'
-        type='submit'
-        disabled={!this.state.username}
-      >
-        Submit
-      </button >
-    </form >
-  )
-}
-
-PlayerInput.prototypes = {
+PlayerInput.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired
 }
@@ -89,7 +89,6 @@ export default class Battle extends React.Component {
     return (
       < React.Fragment >
         <Instructions />
-        <PlayerInput label='label' onSubmit={(value) => console.log(value)} ></PlayerInput>
       </React.Fragment >
     );
   }
