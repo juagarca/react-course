@@ -1,6 +1,7 @@
 import React from 'react'
 import { battle } from '../utils/api'
 import { FaCompass, FaBriefcase, FaUser, FaUsers, FaUserFriends } from 'react-icons/fa'
+import Card from './Card'
 
 export default class Results extends React.Component {
   constructor(props) {
@@ -45,23 +46,13 @@ export default class Results extends React.Component {
 
     return (
       <div className='grid space-around container-sm'>
-        <div className='card bg-light'>
-          <h4 className='center-text header-lg'>
-            {winner.score === loser.score ? 'Tie' : 'Winner'}
-          </h4>
-          <img
-            className='avatar'
-            src={winner.profile.avatar_url}
-            alt={`Avatar for ${winner.profile.login}`}
-          />
-          <h4 className='center-text'>
-            Score: {loser.score.toLocaleString()}
-          </h4>
-          <h2 className='center-text'>
-            <a className='link' href={winner.profile.html_url}>
-              {winner.profile.login}
-            </a>
-          </h2>
+        <Card
+          header={winner.score === loser.score ? 'Tie' : 'Winner'}
+          subHeader={`Score: ${winner.score.toLocaleString()}`}
+          avatar={winner.profile.avatar_url}
+          href={winner.profile.html_url}
+          name={winner.profile.login}
+        >
           <ul className='card-list'>
             <li>
               <FaUser color='rgb(255, 191, 116)' size={22} />
@@ -88,24 +79,14 @@ export default class Results extends React.Component {
               {winner.profile.following.toLocaleString()} following
             </li>
           </ul>
-        </div>
-        <div className='card bg-light'>
-          <h4 className='center-text header-lg'>
-            {winner.score === loser.score ? 'Tie' : 'Loser'}
-          </h4>
-          <img
-            className='avatar'
-            src={loser.profile.avatar_url}
-            alt={`Avatar for ${loser.profile.login}`}
-          />
-          <h4 className='center-text'>
-            Score: {loser.score.toLocaleString()}
-          </h4>
-          <h2 className='center-text'>
-            <a className='link' href={loser.profile.html_url}>
-              {loser.profile.login}
-            </a>
-          </h2>
+        </Card>
+        <Card
+          header={winner.score === loser.score ? 'Tie' : 'Loser'}
+          subHeader={`Score: ${loser.score.toLocaleString()}`}
+          avatar={loser.profile.avatar_url}
+          href={loser.profile.html_url}
+          name={loser.profile.login}
+        >
           <ul className='card-list'>
             <li>
               <FaUser color='rgb(255, 191, 116)' size={22} />
@@ -132,7 +113,7 @@ export default class Results extends React.Component {
               {loser.profile.following.toLocaleString()} following
             </li>
           </ul>
-        </div>
+        </Card>
       </div >
     )
   }
